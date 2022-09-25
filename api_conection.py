@@ -1,9 +1,16 @@
 from flask import Flask, request
+from flask_cors import CORS
 from chat import *
 import flask
 
 api = Flask(__name__)
-
+CORS(api)
+cors = CORS(api, resource={
+    r"/*":{
+        "origins":"*"
+    }
+})
+api.config['JSON_AS_ASCII'] = False
 
 @api.route("/", methods=["POST"])
 def root():
@@ -19,22 +26,14 @@ def talk():
 
     code = 200
     req = request.json
-    res = {"ok": True, "message": "ok"}
+    res = {"code": code, "message": "ok"}
 
     try:
         message = req["message"]
-        context = req["context"]
     except KeyError:
         res = {"ok": False, "message": "One or more required information was not sent!"}
         code = 400
     else:
-        if type(context) == str:
-            if not context.isnumeric():
-                res = {"ok": False, "message": "Context number must be a integer!"}
-                code = 400
-            else:
-                context = int(context)
-
         if type(message) != str:
             res = {"ok": False, "message": "The message must be a text!"}
             code = 400

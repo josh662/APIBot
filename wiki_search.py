@@ -1,6 +1,5 @@
 import wikipedia
-# import wikipediaapi
-# from translate import Translator
+import wikipediaapi
 
 
 class Wiki:
@@ -11,13 +10,21 @@ class Wiki:
         res = ""
         self.search = search
         wikipedia.set_lang("pt")
-        # self.translator = Translator(to_lang="pt")
         self.articles = wikipedia.search(query=self.search, results=10)
         self.look = ""
         self.look = self.compare(self.search, self.articles)
         code = 200
+        link = "NOT FOUND"
 
         if self.look != "":
+            try:
+                wiki = wikipediaapi.Wikipedia('pt')
+                page = wiki.page(self.look)
+                link = page.fullurl
+                print(f"URL: {page.fullurl}")
+            except Exception as err:
+                print(err)
+
             try:
                 res = wikipedia.summary(self.look, sentences=10)
 
@@ -34,10 +41,6 @@ class Wiki:
             code = 404
 
         if code == 200:
-            # print(res)
-            # if len(res) > 500:
-            #     res = res[:500]
-            # res = self.translator.translate(res)
             res = res.replace(" .", ".")
             res = res.replace(". ", ".")
             res = res.replace(".", ". ")
@@ -48,7 +51,7 @@ class Wiki:
             if len(res) > length:
                 res = res[:length].strip() + "..."
 
-        return code, res, self.look
+        return code, res, self.look, link
 
     def compare(self, text, texts):
         sum_txt = 0
@@ -95,5 +98,5 @@ class Wiki:
 
 if __name__ == "__main__":
     w = Wiki()
-    code, res, look = w.research("Nikola")
+    code, res, look, link = w.research("Nikola")
     print(res)

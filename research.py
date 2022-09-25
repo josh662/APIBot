@@ -1,10 +1,11 @@
 from googlesearch import search
 
+
 class Websearch:
     def __init__(self):
         pass
 
-    def get_links(self, text, websites_number=10):
+    def get_links(self, text, websites_number=5):
         self.text = text
         self.websites_number = websites_number
         ok = True
@@ -32,7 +33,7 @@ class Websearch:
                     videos_result.append(result)
                     videos_current += 1
 
-                    if videos_current > 10:
+                    if videos_current > 5:
                         break
 
             res = [links_result, videos_result]
@@ -64,4 +65,4 @@ class Websearch:
 if __name__ == "__main__":
     web = Websearch()
     res = web.get_links("Quem foi Albert Einstein")
-    #print(res[1])
+    # print(res[1])

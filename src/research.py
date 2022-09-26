@@ -1,6 +1,5 @@
 from googlesearch import search
 
-
 class Websearch:
     def __init__(self):
         pass
@@ -16,10 +15,10 @@ class Websearch:
 
         links_current = 0
         videos_current = 0
-
-        max_researchs = 50
+        max_researchs = 5
+        
         try:
-            for result in search(f'"{self.text}" google', stop=max_researchs):
+            for result in search(f'"{self.text}" google', num_results=max_researchs):
                 check = self.check_exceptions(result)
                 if check:
                     links_result.append(result)
@@ -28,7 +27,7 @@ class Websearch:
                     if links_current >= self.websites_number:
                         break
 
-            for result in search(f'"{self.text}" youtube', stop=max_researchs):
+            for result in search(f'"{self.text}" youtube', num_results=max_researchs):
                 if "youtube" in result:
                     videos_result.append(result)
                     videos_current += 1

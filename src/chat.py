@@ -1,22 +1,20 @@
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
-from research import Websearch
-from wiki_search import Wiki
+from src.research import Websearch
+from src.wiki_search import Wiki
+from spacy.cli import download
 import time
 
 time.clock = time.time
-# from spacy.cli import download
 
-# download("en_core_web_sm")
-
+download("en_core_web_sm")
 
 class ENGSM:
     ISO_639_1 = "en_core_web_sm"
 
-
 class IZZO:
     def __init__(self):
-        self.chatbot = ChatBot("Joshua")  # , tagger_language=ENGSM)
+        self.chatbot = ChatBot("Izzo", tagger_language=ENGSM)
         self.trainer = ListTrainer(self.chatbot)
 
         self.training()

@@ -1,0 +1,5 @@
+gunicorn
+chatterbot
+Flask==2.2.2
+flask_cors==3.0.10
+wikipedia==1.4.0
